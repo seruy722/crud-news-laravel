@@ -13,7 +13,7 @@ class NewsController extends Controller
 
     public function index()
     {
-        return view('news.index', ['lastNews' => (new News)->countElem(5, 'desc')]);
+        return view('news.index', ['lastNews' => (new News)->countElem('id','desc',5)]);
     }
 
     public function view($id)

@@ -20,9 +20,9 @@ class ModelBase
         return DB::table($this->table)->count();
     }
 
-    public function countElem($count,$sort)
+    public function countElem($field, $sort,$count)
     {
-        return DB::table($this->table)->orderBy('id', $sort)->limit($count)->get();
+        return DB::table($this->table)->orderBy($field, $sort)->limit($count)->get();
     }
 
     public function save($data)
