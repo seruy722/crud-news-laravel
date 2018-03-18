@@ -15,5 +15,6 @@
             <h3>Нет добавленных новостей!</h3>
         @endif
     </table>
+
     <a href="{{ route('news.index') }}">На главную</a>
 @endsection

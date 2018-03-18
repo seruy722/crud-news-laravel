@@ -22,6 +22,7 @@ class WorkWithDate
     {
         return date($this->date, strtotime($value));
     }
+
     public function getDayOfWeek($value)
     {
         $day = date('N', strtotime($value));

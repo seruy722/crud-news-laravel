@@ -69,7 +69,6 @@ class NewsController extends Controller
         } else {
             $arr = $file;
         }
-        
         (new News)->save($arr);
         return redirect()->route('news.index');
     }
