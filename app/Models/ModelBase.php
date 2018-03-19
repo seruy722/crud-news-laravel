@@ -20,7 +20,7 @@ class ModelBase
         return DB::table($this->table)->count();
     }
 
-    public function countElem($field, $sort,$count)
+    public function countElem($field, $sort, $count)
     {
         return DB::table($this->table)->orderBy($field, $sort)->limit($count)->get();
     }
@@ -38,5 +38,10 @@ class ModelBase
     public function destroy($id)
     {
         return DB::table($this->table)->where('id', $id)->delete();
+    }
+
+    public function value($id, $value)
+    {
+        return DB::table($this->table)->where('id', $id)->value($value);
     }
 }
