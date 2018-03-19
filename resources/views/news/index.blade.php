@@ -9,11 +9,11 @@
     @foreach ($lastNews as $item)
     <tr>
         @if (date('d',time())==date('d',strtotime($item->updated_at)))
-        <td>{{date('H:i',strtotime($item->updated_at))}}</td>
+            <td>{{date('H:i',strtotime($item->updated_at))}}</td>
         @else
-        <td>{{date('d M',strtotime($item->updated_at))}}</td>
+            <td>{{date('d M',strtotime($item->updated_at))}}</td>
         @endif
-        <td><a href="{{ route('news.view',$item->id) }}">{{ $item->title }}</a></td>
+            <td><a href="{{ route('news.view',$item->id) }}">{{ $item->title }}</a></td>
     </tr>
     @endforeach
 </table>

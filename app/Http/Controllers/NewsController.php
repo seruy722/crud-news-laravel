@@ -53,6 +53,9 @@ class NewsController extends Controller
 
     public function destroy($id)
     {
+        $imgName = (new News)->one($id);
+        $file= $imgName->image_name;
+        unlink(public_path() . '/images/'.$file);
         (new News)->destroy($id);
         return redirect()->route('news.show');
     }
