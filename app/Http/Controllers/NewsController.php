@@ -27,7 +27,7 @@ class NewsController extends Controller
 
     public function show()
     {
-        return view('news.show', ['all' => (new News)->all()]);
+        return view('news.show', ['all' => (new News)->paginate('updated_at', 'desc', 6)]);
     }
 
     public function edit($id)

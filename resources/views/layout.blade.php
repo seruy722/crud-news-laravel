@@ -18,6 +18,16 @@
             .size{
                 font-size: 18px;
             }
+            ul>li>a,ul>li>span{
+                display: block;
+                padding: 10px 15px;
+                background-color:bisque;
+                margin-right: 5px;
+                border-radius: 5px;
+            }
+            ul>li>span{
+                background-color: aqua;
+            }
         </style>
     </head>
     <body>
