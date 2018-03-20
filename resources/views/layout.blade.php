@@ -5,17 +5,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>News</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <style>
-            table,tr,td{
-                border: 1px solid black;
-                border-collapse: collapse;
-                padding: 10px 15px;
-            }
-            img{
-                max-width: 100%;
+            .wrapper{
+                width: 900px;
+                margin: 0 auto;
             }
             .img{
-                width: 500px;
+                width: 200px;
+                margin-top: 30px;
             }
         </style>
     </head>

@@ -44,4 +44,8 @@ class ModelBase
     {
         return DB::table($this->table)->where('id', $id)->value($value);
     }
+    public function paginate($field, $sort, $count)
+    {
+        return DB::table($this->table)->orderBy($field, $sort)->paginate($count);
+    }
 }
