@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\News;
-use App\Models\DateModel;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 
@@ -13,7 +12,7 @@ class NewsController extends Controller
 
     public function index()
     {
-        return view('news.index', ['lastNews' => (new News)->paginate('id','desc',5)]);
+        return view('news.index', ['lastNews' => (new News)->paginate('id', 'desc', 5)]);
     }
 
     public function view($id)
@@ -53,8 +52,18 @@ class NewsController extends Controller
 
     public function destroy($id)
     {
-        unlink(public_path() . '/images/'.(new News)->value($id,'image_name'));
-        (new News)->destroy($id);
+        $imageField = (new News)->value($id, 'image_name');
+        if ($imageField != 'nofoto.jpg') {
+            unlink(public_path() . '/images/' . $imageField);
+        }
+        (new News)->destroy([$id]);
+        return redirect()->route('news.show');
+    }
+
+    public function delete(Request $request)
+    {
+        $arrID = $request->all();
+        (new News)->destroy($arrID['check']);
         return redirect()->route('news.show');
     }
 
@@ -101,16 +110,16 @@ class NewsController extends Controller
     public function validFields($req, $id = '')
     {
         $this->validate($req, [
-            'title' => 'required|min:2|max:500|unique:news,title,' . $id,
-            'text' => 'required|string|max:100|min:2',
+            'title' => 'required|min:2|max:200|unique:news,title,' . $id,
+            'description' => 'required|string|max:1000|min:2',
             'file' => 'image',
         ], [
             'title.required' => 'Поле Фамилия незаполнено.',
             'title.min' => 'Поле Фамилия не может быть меньше 2 символов.',
             'title.max' => 'Поле Фамилия не может быть больше 100 символов.',
-            'text.required' => 'Поле Имя незаполнено.',
-            'text.max' => 'Поле Имя не может быть больше 100 символов.',
-            'text.min' => 'Поле Имя не может быть меньше 2 символов.',
+            'description.required' => 'Поле Имя незаполнено.',
+            'description.max' => 'Поле Имя не может быть больше 1000 символов.',
+            'description.min' => 'Поле Имя не может быть меньше 2 символов.',
             'file.image' => 'Файл должен быть изображением',
             'title.unique' => 'Заголовок с таком именем уже существует',
         ]);

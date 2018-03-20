@@ -27,4 +27,6 @@ Route::prefix('news')->group(function () {
     Route::get('/{id}/edit', 'NewsController@edit')->name('news.edit');
 
     Route::get('/{id}/destroy', 'NewsController@destroy')->name('news.destroy');
+
+    Route::post('delete', 'NewsController@delete')->name('news.delete');
 });

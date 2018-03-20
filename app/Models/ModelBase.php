@@ -35,9 +35,9 @@ class ModelBase
         return DB::table($this->table)->where('id', $id)->update($data);
     }
 
-    public function destroy($id)
+    public function destroy($arrID)
     {
-        return DB::table($this->table)->where('id', $id)->delete();
+        return DB::table($this->table)->whereIn('id', $arrID)->delete();
     }
 
     public function value($id, $value)
@@ -47,5 +47,10 @@ class ModelBase
     public function paginate($field, $sort, $count)
     {
         return DB::table($this->table)->orderBy($field, $sort)->paginate($count);
+    }
+
+    public function truncate()
+    {
+        return DB::table($this->table)->delete();
     }
 }

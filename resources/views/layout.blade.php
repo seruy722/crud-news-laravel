@@ -15,6 +15,9 @@
                 width: 200px;
                 margin-top: 30px;
             }
+            .size{
+                font-size: 18px;
+            }
         </style>
     </head>
     <body>
