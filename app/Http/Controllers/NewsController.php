@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\News;
+use App\News;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 
@@ -12,12 +12,12 @@ class NewsController extends Controller
 
     public function index()
     {
-        return view('news.index', ['lastNews' => (new News)->paginate('id', 'desc', 5)]);
+        return view('news.index', ['lastNews' => News::orderBy('id', 'desc')->paginate(5)]);
     }
 
     public function view($id)
     {
-        return view('news.view', ['one' => (new News)->one($id)]);
+        return view('news.view', ['one' => News::find($id)]);
     }
 
     public function create()
@@ -27,12 +27,12 @@ class NewsController extends Controller
 
     public function show()
     {
-        return view('news.show', ['all' => (new News)->paginate('updated_at', 'desc', 6)]);
+        return view('news.show', ['all' => News::orderBy('created_at', 'desc')->paginate(10)]);
     }
 
     public function edit($id)
     {
-        return view('news.edit', ['one' => (new News)->one($id)]);
+        return view('news.edit', ['one' => News::findOrFail($id)]);
     }
 
     public function update(Request $request, $id)
@@ -46,24 +46,34 @@ class NewsController extends Controller
             $arr = $file;
         }
         unset($arr['_token'], $arr['image']);
-        (new News)->update($id, $arr);
+        News::where('id', $id)->update($arr);
         return redirect()->route('news.show');
     }
 
     public function destroy($id)
     {
-        $imageField = (new News)->value($id, 'image_name');
+        $res = News::find($id);
+        $imageField = $res->image_name;
         if ($imageField != 'nofoto.jpg') {
             unlink(public_path() . '/images/' . $imageField);
         }
-        (new News)->destroy([$id]);
+        News::destroy($id);
         return redirect()->route('news.show');
     }
 
     public function delete(Request $request)
     {
-        $arrID = $request->all();
-        (new News)->destroy($arrID['check']);
+        $arrID = $request->only('check');
+        $res = News::find($arrID['check']);
+        if ($res) {
+            foreach ($res as $item) {
+                $imageField = $item->image_name;
+                if ($imageField != 'nofoto.jpg') {
+                    unlink(public_path() . '/images/' . $imageField);
+                }
+            }
+            News::destroy($arrID['check']); 
+        }
         return redirect()->route('news.show');
     }
 
@@ -79,7 +89,7 @@ class NewsController extends Controller
         } else {
             $arr = $file;
         }
-        (new News)->save($arr);
+        News::create($arr);
         return redirect()->route('news.index');
     }
 
@@ -111,17 +121,17 @@ class NewsController extends Controller
     {
         $this->validate($req, [
             'title' => 'required|min:2|max:200|unique:news,title,' . $id,
-            'description' => 'required|string|max:1000|min:2',
+            'description' => 'required|string|max:5000|min:2',
             'file' => 'image',
         ], [
-            'title.required' => 'Поле Фамилия незаполнено.',
-            'title.min' => 'Поле Фамилия не может быть меньше 2 символов.',
-            'title.max' => 'Поле Фамилия не может быть больше 100 символов.',
-            'description.required' => 'Поле Имя незаполнено.',
-            'description.max' => 'Поле Имя не может быть больше 1000 символов.',
-            'description.min' => 'Поле Имя не может быть меньше 2 символов.',
+            'title.required' => 'Поле Заголовок незаполнено.',
+            'title.min' => 'Поле Заголовок не может быть меньше 2 символов.',
+            'title.max' => 'Поле Заголовок не может быть больше 200 символов.',
+            'title.unique' => 'Новость с таким названием уже существует',
+            'description.required' => 'Поле Текст незаполнено.',
+            'description.max' => 'Поле Текст не может быть больше 5000 символов.',
+            'description.min' => 'Поле Текст не может быть меньше 2 символов.',
             'file.image' => 'Файл должен быть изображением',
-            'title.unique' => 'Заголовок с таком именем уже существует',
         ]);
     }
 

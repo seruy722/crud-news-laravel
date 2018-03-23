@@ -17,7 +17,7 @@
         <div class="form-group">
             <input type="file" name="image" class="form-control-file" id="exampleFormControlFile1">
         </div>
-        <input type="submit"  class="btn btn-success" value="Отправить">
+        <input type="submit"  class="btn btn-success" value="Сохранить">
         <a href="{{route('news.index')}}" class="btn btn-danger">Отменить</a>
     </form>
 </div>
